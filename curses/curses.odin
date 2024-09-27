@@ -332,5 +332,18 @@ foreign libcurses {
     extended_color_content :: proc(color, r, g, b : c.int) -> c.int ---
     extended_pair_content  :: proc(pair, f, b : c.int) -> c.int ---
     reset_color_pairs      :: proc() ---
+
+    // Low-level curses routines
+    def_prog_mode    :: proc() -> c.int ---
+    def_shell_mode   :: proc() -> c.int ---
+    reset_prog_mode  :: proc() -> c.int ---
+    reset_shell_mode :: proc() -> c.int ---
+    resetty          :: proc() -> c.int ---
+    savetty          :: proc() -> c.int ---
+    getsyx           :: proc(row, col : c.int) ---
+    setsyx           :: proc(row, col : c.int) ---
+    // ripoffline
+    curs_set         :: proc(visibility: c.int) -> c.int ---
+    napms            :: proc(ms : c.int) -> c.int ---
 }
 
