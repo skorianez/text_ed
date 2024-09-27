@@ -22,16 +22,106 @@ COLOR_MAGENTA :: 5
 COLOR_CYAN    :: 6
 COLOR_WHITE   :: 7
 
-KEY_F0 :: 0o410
+// KEYS
 KEY_F :: proc(n : chtype) -> chtype {
     return KEY_F0 + n
 }
+
+KEY_DOWN      :: 0o402
+KEY_UP        :: 0o403
+KEY_LEFT      :: 0o404
+KEY_RIGHT     :: 0o405
+KEY_HOME      :: 0o406
+KEY_BACKSPACE :: 0o407
+KEY_F0        :: 0o410
+KEY_DL        :: 0o510        /* delete-line key */
+KEY_IL        :: 0o511        /* insert-line key */
+KEY_DC        :: 0o512        /* delete-character key */
+KEY_IC        :: 0o513        /* insert-character key */
+KEY_EIC       :: 0o514        /* sent by rmir or smir in insert mode */
+KEY_CLEAR     :: 0o515        /* clear-screen or erase key */
+KEY_EOS       :: 0o516        /* clear-to-end-of-screen key */
+KEY_EOL       :: 0o517        /* clear-to-end-of-line key */
+KEY_SF        :: 0o520        /* scroll-forward key */
+KEY_SR        :: 0o521        /* scroll-backward key */
+KEY_NPAGE     :: 0o522        /* next-page key */
+KEY_PPAGE     :: 0o523        /* previous-page key */
+KEY_STAB      :: 0o524        /* set-tab key */
+KEY_CTAB      :: 0o525        /* clear-tab key */
+KEY_CATAB     :: 0o526        /* clear-all-tabs key */
+KEY_ENTER     :: 0o527        /* enter/send key */
+KEY_PRINT     :: 0o532        /* print key */
+KEY_LL        :: 0o533        /* lower-left key (home down) */
+KEY_A1        :: 0o534        /* upper left of keypad */
+KEY_A3        :: 0o535        /* upper right of keypad */
+KEY_B2        :: 0o536        /* center of keypad */
+KEY_C1        :: 0o537        /* lower left of keypad */
+KEY_C3        :: 0o540        /* lower right of keypad */
+KEY_BTAB      :: 0o541        /* back-tab key */
+KEY_BEG       :: 0o542        /* begin key */
+KEY_CANCEL    :: 0o543        /* cancel key */
+KEY_CLOSE     :: 0o544        /* close key */
+KEY_COMMAND   :: 0o545        /* command key */
+KEY_COPY      :: 0o546        /* copy key */
+KEY_CREATE    :: 0o547        /* create key */
+KEY_END       :: 0o550        /* end key */
+KEY_EXIT      :: 0o551        /* exit key */
+KEY_FIND      :: 0o552        /* find key */
+KEY_HELP      :: 0o553        /* help key */
+KEY_MARK      :: 0o554        /* mark key */
+KEY_MESSAGE   :: 0o555        /* message key */
+KEY_MOVE      :: 0o556        /* move key */
+KEY_NEXT      :: 0o557        /* next key */
+KEY_OPEN      :: 0o560        /* open key */
+KEY_OPTIONS   :: 0o561        /* options key */
+KEY_PREVIOUS  :: 0o562        /* previous key */
+KEY_REDO      :: 0o563        /* redo key */
+KEY_REFERENCE :: 0o564        /* reference key */
+KEY_REFRESH   :: 0o565        /* refresh key */
+KEY_REPLACE   :: 0o566        /* replace key */
+KEY_RESTART   :: 0o567        /* restart key */
+KEY_RESUME    :: 0o570        /* resume key */
+KEY_SAVE      :: 0o571        /* save key */
+KEY_SBEG      :: 0o572        /* shifted begin key */
+KEY_SCANCEL   :: 0o573        /* shifted cancel key */
+KEY_SCOMMAND  :: 0o574        /* shifted command key */
+KEY_SCOPY     :: 0o575        /* shifted copy key */
+KEY_SCREATE   :: 0o576        /* shifted create key */
+KEY_SDC       :: 0o577        /* shifted delete-character key */
+KEY_SDL       :: 0o600        /* shifted delete-line key */
+KEY_SELECT    :: 0o601        /* select key */
+KEY_SEND      :: 0o602        /* shifted end key */
+KEY_SEOL      :: 0o603        /* shifted clear-to-end-of-line key */
+KEY_SEXIT     :: 0o604        /* shifted exit key */
+KEY_SFIND     :: 0o605        /* shifted find key */
+KEY_SHELP     :: 0o606        /* shifted help key */
+KEY_SHOME     :: 0o607        /* shifted home key */
+KEY_SIC       :: 0o610        /* shifted insert-character key */
+KEY_SLEFT     :: 0o611        /* shifted left-arrow key */
+KEY_SMESSAGE  :: 0o612        /* shifted message key */
+KEY_SMOVE     :: 0o613        /* shifted move key */
+KEY_SNEXT     :: 0o614        /* shifted next key */
+KEY_SOPTIONS  :: 0o615        /* shifted options key */
+KEY_SPREVIOUS :: 0o616        /* shifted previous key */
+KEY_SPRINT    :: 0o617        /* shifted print key */
+KEY_SREDO     :: 0o620        /* shifted redo key */
+KEY_SREPLACE  :: 0o621        /* shifted replace key */
+KEY_SRIGHT    :: 0o622        /* shifted right-arrow key */
+KEY_SRSUME    :: 0o623        /* shifted resume key */
+KEY_SSAVE     :: 0o624        /* shifted save key */
+KEY_SSUSPEND  :: 0o625        /* shifted suspend key */
+KEY_SUNDO     :: 0o626        /* shifted undo key */
+KEY_SUSPEND   :: 0o627        /* suspend key */
+KEY_UNDO      :: 0o630        /* undo key */
+KEY_MOUSE     :: 0o631        /* Mouse event has occurred */
+
 
 NCURSES_ATTR_SHIFT :: 8
 NCURSES_BITS :: proc(mask : chtype, shift :chtype) -> chtype {
     return mask << ( shift + NCURSES_ATTR_SHIFT)
 }
-A_NORMAL :: 0
+
+A_NORMAL     :: 0
 //A_ATTRIBUTES := NCURSES_BITS(~(1 - 1),0)
 A_CHARTEXT   := (NCURSES_BITS(1,0) - 1)
 A_COLOR      := NCURSES_BITS(((1) << 8) - 1,0)
@@ -51,7 +141,6 @@ A_RIGHT      := NCURSES_BITS(1, 20)
 A_TOP        := NCURSES_BITS(1, 21)
 A_VERTICAL   := NCURSES_BITS(1, 22)
 A_ITALIC     := NCURSES_BITS(1, 23)
-
 
 
 COLOR_PAIR :: proc(n: chtype) -> chtype {

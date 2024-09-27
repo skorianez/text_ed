@@ -1,5 +1,6 @@
 package main
 
+import "core:c"
 import cur "curses"
 
 main :: proc(){
@@ -51,22 +52,62 @@ main :: proc(){
         
     // }
 
-    { // COLORS
-        if !cur.has_colors(){
-            cur.printw("Terminal dos not support color\n")
+    // { // COLORS
+    //     if !cur.has_colors(){
+    //         cur.printw("Terminal dos not support color\n")
+    //     }
+
+    //     cur.start_color()
+    //     cur.init_pair(1, cur.COLOR_BLUE, cur.COLOR_MAGENTA)
+    //     cur.init_pair(2, cur.COLOR_RED, cur.COLOR_WHITE)
+
+    //     cur.attron( cur.COLOR_PAIR(1) )
+    //     cur.printw("<------->\n")
+    //     cur.attroff( cur.COLOR_PAIR(1) )
+
+    //     cur.attron( cur.COLOR_PAIR(2) )
+    //     cur.printw(">---+---<\n")
+    //     cur.attroff( cur.COLOR_PAIR(2) )
+    // }
+
+    { // INPUT
+        y_max, x_max := cur.getmaxyx(cur.stdscr)
+        mwin := cur.newwin(6, x_max - 12, y_max - 8, 5)
+        cur.box(mwin, 0, 0)
+        cur.refresh()
+        cur.wrefresh(mwin)
+
+        cur.keypad(mwin, true)
+        choices := [3]cstring {"Walk", "Jog", "Run"}
+        choice, highlight : int
+
+        loop :for {
+            for i in 0..<3 {
+                if i == highlight {
+                    cur.wattron(mwin, c.int(cur.A_REVERSE))
+                }
+                cur.mvwprintw(mwin, c.int(i)+1, 1, choices[i])
+                cur.wattroff(mwin, c.int(cur.A_REVERSE))
+            }
+            choice := cur.wgetch(mwin)
+
+            switch choice {
+                case cur.KEY_UP:
+                    highlight -= 1
+                    if highlight == -1 {
+                        highlight = 0
+                    }
+                case cur.KEY_DOWN:
+                    highlight += 1
+                    if highlight == 3 {
+                        highlight = 2
+                    }
+            }
+            if choice == 10 {
+                break loop
+            }
         }
-
-        cur.start_color()
-        cur.init_pair(1, cur.COLOR_BLUE, cur.COLOR_MAGENTA)
-        cur.init_pair(2, cur.COLOR_RED, cur.COLOR_WHITE)
-
-        cur.attron( cur.COLOR_PAIR(1) )
-        cur.printw("<------->\n")
-        cur.attroff( cur.COLOR_PAIR(1) )
-
-        cur.attron( cur.COLOR_PAIR(2) )
-        cur.printw(">---+---<\n")
-        cur.attroff( cur.COLOR_PAIR(2) )
+        cur.printw("Your choice was: %s\n", choices[highlight])
     }
 
     //---------------------------------------------------
