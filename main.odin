@@ -51,7 +51,23 @@ main :: proc(){
         
     // }
 
-    
+    { // COLORS
+        if !cur.has_colors(){
+            cur.printw("Terminal dos not support color\n")
+        }
+
+        cur.start_color()
+        cur.init_pair(1, cur.COLOR_BLUE, cur.COLOR_MAGENTA)
+        cur.init_pair(2, cur.COLOR_RED, cur.COLOR_WHITE)
+
+        cur.attron( cur.COLOR_PAIR(1) )
+        cur.printw("<------->\n")
+        cur.attroff( cur.COLOR_PAIR(1) )
+
+        cur.attron( cur.COLOR_PAIR(2) )
+        cur.printw(">---+---<\n")
+        cur.attroff( cur.COLOR_PAIR(2) )
+    }
 
     //---------------------------------------------------
     // apenas pausa

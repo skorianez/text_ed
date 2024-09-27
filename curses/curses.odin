@@ -231,7 +231,7 @@ foreign libcurses {
     mvwvline :: proc(win : ^WINDOW, row, col : c.int, ch: chtype, n : c.int) -> c.int ---
 
     // Manipulate terminal colors with curses
-    start_colors           :: proc() -> c.int ---
+    start_color            :: proc() -> c.int ---
     has_colors             :: proc() -> c.bool ---
     can_change_color       :: proc() -> c.bool ---
     init_pair              :: proc(pair, f, b : c.short) -> c.int ---
