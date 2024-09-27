@@ -6,13 +6,12 @@ main :: proc(){
     cur.initscr()               // start curses mode
     defer cur.endwin()          // defer end curses mode
 
-    cur.raw()                   // line buffering disabled
-    cur.keypad(cur.stdscr, true)
-    cur.noecho()                // don't echo() while we getch
-
-    cur.refresh()
+    //cur.nocbreak()            // Avoid ctrl+C
+    cur.raw()                   // Captura todas as teclas, inclusive Ctrl+C
+    cur.noecho()                // Don't echo() while we getch
     
     // { // simple input text
+    //     cur.keypad(cur.stdscr, true) // cap F1 
     //     cur.attron(cur.A_BOLD)
     //     cur.printw("Type: F1 to EXIT\n")
     //     cur.attroff(cur.A_BOLD)
@@ -30,12 +29,31 @@ main :: proc(){
     //     cur.attroff(cur.A_BOLD)
     // }
 
-    { // Center screen teste
-        mesg :cstring = "Test from Leonardo!"
-        row, col := cur.getmaxyx(cur.stdscr)
-        cur.mvprintw(row/2, (col - i32(len(mesg)))/2, "%s", mesg )
-    }
+    // { // Move window test
+    //     mesg :cstring = "Test from Leonardo!"
+
+    //     row, col := cur.getmaxyx(cur.stdscr)
+    //     cur.mvprintw(row/2, (col - i32(len(mesg)))/2, "%s", mesg )
+
+    //     cur.getch()
+
+    //     cur.move(10,10)
+    //     cur.printw("---->")
+    // }
+
+    // { // WINDOWS
+    //     win := cur.newwin(10, 20, 10, 10)
+    //     cur.refresh()
+
+    //     cur.box(win, 0, 0)
+    //     cur.mvwprintw(win,1,1, "My box! very large text maybe")
+    //     cur.wrefresh(win)
+        
+    // }
+
+    
 
     //---------------------------------------------------
+    // apenas pausa
     cur.getch()
 }
