@@ -1,7 +1,6 @@
 package main
 
 import cur "curses"
-//import "core:fmt"
 
 main :: proc(){
     cur.initscr()               // start curses mode

@@ -30,7 +30,7 @@ cchar_t :: struct  {
     ext_color : c.int,
 }
 
-// TODO: Verificar se realmente precisa dessa struct 
+// TODO: Verify if I realy need to declare this struct
 WINDOW :: struct {
 
     _cury, _curx : NCURSES_SIZE_T,  // current cursor position
