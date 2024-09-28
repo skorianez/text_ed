@@ -149,37 +149,20 @@ main :: proc(){
         win := cur.newwin(yMax/2, xMax/2, yMax/4, xMax/4)
         cur.box(win, 0, 0)
 
-        cur.mvwprintw(win, 0, 2, "File")
-        cur.mvwprintw(win, 0, 7, "Edit")
-        cur.mvwprintw(win, 0, 12, "Options")
+        menus := [?]Menu{
+            {text="File", trigger='f'},
+            {text="Edit", trigger='e'},
+            {text="Options", trigger='o'},
+            {text="Help", trigger='h'},
+        }
+        menubar := menubar_new(win, menus[:])
+        menubar_draw(&menubar)
 
         ch: c.int
         for {
             ch = cur.wgetch(win)
-            switch ch {
-                case 'f':
-                    cur.wattron(win, c.int(cur.A_STANDOUT ))
-                    cur.mvwprintw(win, 0, 2, "File")
-                    cur.wattroff(win, c.int(cur.A_STANDOUT ))
-                    cur.mvwprintw(win, 0, 7, "Edit")
-                    cur.mvwprintw(win, 0, 12, "Options")
-                case 'e':
-                    cur.wattron(win, c.int(cur.A_STANDOUT ))
-                    cur.mvwprintw(win, 0, 7, "Edit")
-                    cur.wattroff(win, c.int(cur.A_STANDOUT ))
-                    cur.mvwprintw(win, 0, 2, "File")
-                    cur.mvwprintw(win, 0, 12, "Options")
-                case 'o':
-                    cur.wattron(win, c.int(cur.A_STANDOUT ))
-                    cur.mvwprintw(win, 0, 12, "Options")
-                    cur.wattroff(win, c.int(cur.A_STANDOUT ))
-                    cur.mvwprintw(win, 0, 2, "File")
-                    cur.mvwprintw(win, 0, 7, "Edit")
-                case :
-                    cur.mvwprintw(win, 0, 2, "File")
-                    cur.mvwprintw(win, 0, 7, "Edit")
-                    cur.mvwprintw(win, 0, 12, "Options")
-            }
+            menubar_triggers(&menubar, ch)
+            menubar_draw(&menubar)
         }
         
     }
