@@ -8,7 +8,7 @@ main :: proc(){
     defer cur.endwin()          // defer end curses mode
 
     //cur.nocbreak()            // Avoid ctrl+C
-    cur.raw()                   // Captura todas as teclas, inclusive Ctrl+C
+    //cur.raw()                   // Captura todas as teclas, inclusive Ctrl+C
     cur.noecho()                // Don't echo() while we getch
     
     { // simple input text
@@ -110,25 +110,80 @@ main :: proc(){
     }
 
     { // TOP DOWN PLAYER
-        cur.curs_set(0) // Hide cursror
+        // cur.curs_set(0) // Hide cursror
+        // yMax, xMax := cur.getmaxyx(cur.stdscr)
+        // playwin := cur.newwin(20, 50, yMax/2 - 10, 10 )
+        // cur.box(playwin, 0, 0)
+
+        // cur.refresh()
+        // cur.wrefresh(playwin)
+        // p := p_new(playwin, 1, 1, '@')
+        // choice : c.int
+        // loop : for {
+        //     p_display(&p)
+        //     cur.wrefresh(playwin)
+
+        //     choice = p_getmv(&p)
+        //     if choice == 'x'{
+        //         break loop
+        //     }
+        // }
+    }
+
+    { // INPUT MODES
+        // cur.keypad(cur.stdscr, true)
+        // ch : c.int
+        // for {
+        //     ch = cur.getch()
+        //     cur.mvprintw(1,0, "Key Name: %s - 0x%02x\n", cur.keyname(ch), ch)
+        //     if ch == 'x'{
+        //         break
+        //     }
+        // }
+    }
+
+    { // MENUBAR
+        cur.curs_set(0)
+
         yMax, xMax := cur.getmaxyx(cur.stdscr)
-        playwin := cur.newwin(20, 50, yMax/2 - 10, 10 )
-        cur.box(playwin, 0, 0)
+        win := cur.newwin(yMax/2, xMax/2, yMax/4, xMax/4)
+        cur.box(win, 0, 0)
 
-        cur.refresh()
-        cur.wrefresh(playwin)
-        p := p_new(playwin, 1, 1, '@')
-        choice : c.int
-        loop : for {
-            p_display(&p)
-            cur.wrefresh(playwin)
+        cur.mvwprintw(win, 0, 2, "File")
+        cur.mvwprintw(win, 0, 7, "Edit")
+        cur.mvwprintw(win, 0, 12, "Options")
 
-            choice = p_getmv(&p)
-            if choice == 'x'{
-                break loop
+        ch: c.int
+        for {
+            ch = cur.wgetch(win)
+            switch ch {
+                case 'f':
+                    cur.wattron(win, c.int(cur.A_STANDOUT ))
+                    cur.mvwprintw(win, 0, 2, "File")
+                    cur.wattroff(win, c.int(cur.A_STANDOUT ))
+                    cur.mvwprintw(win, 0, 7, "Edit")
+                    cur.mvwprintw(win, 0, 12, "Options")
+                case 'e':
+                    cur.wattron(win, c.int(cur.A_STANDOUT ))
+                    cur.mvwprintw(win, 0, 7, "Edit")
+                    cur.wattroff(win, c.int(cur.A_STANDOUT ))
+                    cur.mvwprintw(win, 0, 2, "File")
+                    cur.mvwprintw(win, 0, 12, "Options")
+                case 'o':
+                    cur.wattron(win, c.int(cur.A_STANDOUT ))
+                    cur.mvwprintw(win, 0, 12, "Options")
+                    cur.wattroff(win, c.int(cur.A_STANDOUT ))
+                    cur.mvwprintw(win, 0, 2, "File")
+                    cur.mvwprintw(win, 0, 7, "Edit")
+                case :
+                    cur.mvwprintw(win, 0, 2, "File")
+                    cur.mvwprintw(win, 0, 7, "Edit")
+                    cur.mvwprintw(win, 0, 12, "Options")
             }
         }
+        
     }
+
     //---------------------------------------------------
     // apenas pausa
     //cur.getch()

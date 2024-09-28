@@ -1,7 +1,7 @@
 package curses
 
 import "core:c"
-import "core:c/libc" // FILE
+import "core:c/libc" // FILE e wchart_t
 
 when ODIN_OS == .Linux {
     foreign import libcurses "system:curses"
@@ -9,6 +9,7 @@ when ODIN_OS == .Linux {
 
 chtype :: c.uint
 attr_t :: chtype
+cchar_t:: struct {}
 WINDOW :: struct {}
 SCREEN :: struct {}
 
@@ -345,5 +346,20 @@ foreign libcurses {
     // ripoffline
     curs_set         :: proc(visibility: c.int) -> c.int ---
     napms            :: proc(ms : c.int) -> c.int ---
+
+    // Miscellaneous curses utility routines
+    unctrl       :: proc(ch: chtype) -> cstring ---
+    wunctrl      :: proc(wch: ^cchar_t) -> ^libc.wchar_t ---
+    keyname      :: proc(c: c.int) -> cstring ---
+    key_name     :: proc(wc: libc.wchar_t) -> string ---
+    filter       :: proc() ---
+    use_env      :: proc(f : bool) ---
+    putwin       :: proc(win: ^WINDOW, filep: ^libc.FILE) -> c.int ---
+    getwin       :: proc(filep : ^libc.FILE) -> ^WINDOW ---
+    delay_output :: proc(ms: c.int) -> c.int ---
+    flushinp     :: proc() -> c.int ---
+    nofilter     :: proc() ---
+    use_tioctl   :: proc(f: bool) ---
+
 }
 
