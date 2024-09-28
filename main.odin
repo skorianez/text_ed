@@ -53,21 +53,37 @@ main :: proc(){
     }
     
     { // COLORS
-        // if !cur.has_colors(){
-        //     cur.printw("Terminal dos not support color\n")
-        // }
+        if !cur.has_colors(){
+            cur.printw("Terminal dos not support color\n")
+            cur.getch()
+            os.exit(1)
+        }
 
-        // cur.start_color()
-        // cur.init_pair(1, cur.COLOR_BLUE, cur.COLOR_MAGENTA)
-        // cur.init_pair(2, cur.COLOR_RED, cur.COLOR_WHITE)
+        cur.start_color()
 
-        // cur.attron( cur.COLOR_PAIR(1) )
-        // cur.printw("<------->\n")
-        // cur.attroff( cur.COLOR_PAIR(1) )
+        cur.init_pair(1, cur.COLOR_BLUE, cur.COLOR_MAGENTA)
+        cur.init_pair(2, cur.COLOR_RED, cur.COLOR_WHITE)
 
-        // cur.attron( cur.COLOR_PAIR(2) )
-        // cur.printw(">---+---<\n")
-        // cur.attroff( cur.COLOR_PAIR(2) )
+        cur.attron( cur.COLOR_PAIR(1) )
+        cur.printw("<------->\n")
+        cur.attroff( cur.COLOR_PAIR(1) )
+
+        cur.attron( cur.COLOR_PAIR(2) )
+        cur.printw(">---+---<\n")
+        cur.attroff( cur.COLOR_PAIR(2) )
+
+
+        // Não funcionou no Konsole, mas no Kitty foi
+        // CUSTOM COLOR - (0-999)
+        COLOR_PINK :: 12  // depois do 7-white        
+        cur.init_color(COLOR_PINK , 976, 375, 554)
+        cur.init_pair(3, COLOR_PINK, cur.COLOR_BLACK)
+
+        cur.attron(cur.COLOR_PAIR(3))
+        // FIND MAX COLORS 254 and COLOR_PAIRS 65536
+        cur.printw("Colors: %d\nPairs: %d\n", cur.COLORS , cur.COLOR_PAIRS ) 
+        cur.attroff(cur.COLOR_PAIR(3))
+        
     }
 
     { // INPUT
@@ -144,39 +160,39 @@ main :: proc(){
     }
 
     { // MENUBAR
-        cur.curs_set(0)
+        // cur.curs_set(0)
 
-        if !cur.has_colors() {
-            os.exit(1)
-        }
-        cur.start_color()
-        cur.init_pair(1, cur.COLOR_WHITE, cur.COLOR_BLUE)
+        // if !cur.has_colors() {
+        //     os.exit(1)
+        // }
+        // cur.start_color()
+        // cur.init_pair(1, cur.COLOR_WHITE, cur.COLOR_BLUE)
 
-        yMax, xMax := cur.getmaxyx(cur.stdscr)
-        win := cur.newwin(yMax/2, xMax/2, yMax/4, xMax/4)
-        cur.box(win, 0, 0)
+        // yMax, xMax := cur.getmaxyx(cur.stdscr)
+        // win := cur.newwin(yMax/2, xMax/2, yMax/4, xMax/4)
+        // cur.box(win, 0, 0)
 
-        file_menu := [?]string{"New", "Open", "Save", "Exit"}
-        edit_menu := [?]string{"Copy", "Cut", "Paste"}
-        view_menu := [?]string{"Sidebar", "Terminal"}
-        menus := [?]Menu{
-            {text="File", trigger='f', items=file_menu[:]},
-            {text="Edit", trigger='e', items=edit_menu[:]},
-            {text="View", trigger='v', items=view_menu[:]},
-        }
-        menubar := menubar_new(win, menus[:])
-        menubar_draw(&menubar)
+        // file_menu := [?]string{"New", "Open", "Save", "Exit"}
+        // edit_menu := [?]string{"Copy", "Cut", "Paste"}
+        // view_menu := [?]string{"Sidebar", "Terminal"}
+        // menus := [?]Menu{
+        //     {text="File", trigger='f', items=file_menu[:]},
+        //     {text="Edit", trigger='e', items=edit_menu[:]},
+        //     {text="View", trigger='v', items=view_menu[:]},
+        // }
+        // menubar := menubar_new(win, menus[:])
+        // menubar_draw(&menubar)
 
-        ch: c.int
-        for {
-            ch = cur.wgetch(win)
-            menubar_triggers(&menubar, ch)
-            menubar_draw(&menubar)
-        }
+        // ch: c.int
+        // for {
+        //     ch = cur.wgetch(win)
+        //     menubar_triggers(&menubar, ch)
+        //     menubar_draw(&menubar)
+        //}
         
     }
 
     //---------------------------------------------------
     // apenas pausa
-    //cur.getch()
+    cur.getch()
 }
