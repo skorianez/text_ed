@@ -1,6 +1,7 @@
 package main
 
 import "core:c"
+import "core:os"
 import cur "curses"
 
 main :: proc(){
@@ -145,15 +146,23 @@ main :: proc(){
     { // MENUBAR
         cur.curs_set(0)
 
+        if !cur.has_colors() {
+            os.exit(1)
+        }
+        cur.start_color()
+        cur.init_pair(1, cur.COLOR_WHITE, cur.COLOR_BLUE)
+
         yMax, xMax := cur.getmaxyx(cur.stdscr)
         win := cur.newwin(yMax/2, xMax/2, yMax/4, xMax/4)
         cur.box(win, 0, 0)
 
+        file_menu := [?]string{"New", "Open", "Save", "Exit"}
+        edit_menu := [?]string{"Copy", "Cut", "Paste"}
+        view_menu := [?]string{"Sidebar", "Terminal"}
         menus := [?]Menu{
-            {text="File", trigger='f'},
-            {text="Edit", trigger='e'},
-            {text="Options", trigger='o'},
-            {text="Help", trigger='h'},
+            {text="File", trigger='f', items=file_menu[:]},
+            {text="Edit", trigger='e', items=edit_menu[:]},
+            {text="View", trigger='v', items=view_menu[:]},
         }
         menubar := menubar_new(win, menus[:])
         menubar_draw(&menubar)
