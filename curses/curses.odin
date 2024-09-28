@@ -361,5 +361,15 @@ foreign libcurses {
     nofilter     :: proc() ---
     use_tioctl   :: proc(f: bool) ---
 
+    // Set curses output options
+    clearok    :: proc(win: ^WINDOW, bl : bool) -> c.int ---
+    idlok      :: proc(win: ^WINDOW, bl : bool) -> c.int ---
+    idcok      :: proc(win: ^WINDOW, bl : bool)  ---
+    immedok    :: proc(win: ^WINDOW, bl : bool) ---
+    leaveok    :: proc(win: ^WINDOW, bl : bool) -> c.int ---
+    scrollok   :: proc(win: ^WINDOW, bl : bool) -> c.int ---
+    setscrreg  :: proc(top, bot : c.int) -> c.int ---
+    wsetscrreg :: proc(win: ^WINDOW, top, bot : c.int) -> c.int ---
+
 }
 
